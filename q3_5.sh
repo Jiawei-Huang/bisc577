@@ -7,4 +7,4 @@ awk -F '\t' 'BEGIN{printf("create table T(c text,p int); BEGIN TRANSACTION;\n");
 sqlite3 -separator ' ' tmp.sqlite > ${f}.density.txt && rm tmp.sqlite
 
 #plot using plot.py #could be done in snakemake directly
-python plot.py SRR5762776.freebayes.vcf.density.txt
+python plot.py ${f}.density.txt
