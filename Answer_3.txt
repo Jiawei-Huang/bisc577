@@ -1,1 +1,2 @@
-homo: 246399 hetero: 722849 total: 969248
+SRR5762776: homo: 246399 hetero: 722849 total: 969248
+SRR6765736: homo: 116517 hetero: 938196 total: 1054713
