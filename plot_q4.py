@@ -13,6 +13,6 @@ for i in raw:
         print(i)
 
 plt.hist(toplot,bins=1000)
-plt.xlim(-1000,1000)
+plt.xlim(-10000,10000)
 plt.title("distribution of the lengths of structural variants of " + out)
 plt.savefig(out +".q4.png")
