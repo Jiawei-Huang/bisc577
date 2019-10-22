@@ -5,3 +5,8 @@
 *.vcf
 *.aln
 *.out
+*.fai
+*.bak
+*.intersect
+*.unitigs*
+*.h5
