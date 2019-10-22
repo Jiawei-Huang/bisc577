@@ -12,6 +12,7 @@ for i in raw:
     except:
         print(i)
 
-plt.hist(toplot,bins=100)
-plt.title("distribution of the lengths of structural variants of" + out)
+plt.hist(toplot,bins=1000)
+plt.xlim(-1000,1000)
+plt.title("distribution of the lengths of structural variants of " + out)
 plt.savefig(out +".q4.png")
