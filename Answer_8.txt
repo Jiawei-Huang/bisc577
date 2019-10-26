@@ -1,1 +1,1 @@
-required N50 statistic is 767
+required N50 statistic is 3130
