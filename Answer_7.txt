@@ -1,0 +1,4 @@
+in SRR6765736 :
+contigs greater than 2kbp : 16765
+in SRR5762776 :
+contigs greater than 2kbp : 17268

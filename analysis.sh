@@ -18,5 +18,7 @@ for v in {22,31}; do
 	./q8.sh ${srr}_${v}.contigs.fa.fai
 done
 
-echo check Answer_3.txt and Answer_8.txt >  Answer_${srr}_3.txt
+./q7.sh ${srr}
+
+echo check Answer_3.txt, Answer_7.txt, Answer_8.txt and the png files>  Answer_${srr}_3.txt
 
