@@ -1,0 +1,159 @@
+Assignment 2. Mapping and variation.
+
+Because there are delays in getting the cluster environment set up,
+this assignment should be done in pairs, with at least one person in
+each pair having access to the HPC.   Both people should e-mail the
+snakemake file used to run the analysis, and a word or pdf doc of the
+answers to questions below.  There may be issues getting your
+environment set up correctly on the HPC, so please do not hesitate to
+send me questions about this. 
+
+
+This will involve a little SNV detection, SV detection, and de novo
+assembly looking at Drosophila. The data is all local, and there will
+be less guidance for this project than the last.
+
+There are two sets of reads. If you do the assignment with a snakemake file using wildcards,
+it will be less work in the long run. 
+
+
+You will need to do this on the HPC cluster.  First log onto
+hpc-cmb.usc.edu, with your normal login credentials.
+
+Then you will need to start an interactive session on a node using
+UGE.
+
+> salloc -c 8 --mem=24000 --time=24:00:00 --partition=cmb
+
+This will start a session on a node with 24G of ram, and 8 cores, and
+you will stay logged on for up to 24 hours.
+
+
+Data:
+- The drosophila reference is here:
+
+/home/cmb-16/mjc/bisc577a/DrosophilaData/Genome/dm6.fa
+
+- Reads are from two samples, one drosophila strain from Italy (SRR5762776),
+and another from Sweden (SRR6765736)
+
+You should make a directory to run this assignment on the hpc cluster,
+NOT in your home directory.  Your home directory will run out of
+space.
+
+> mkdir Assignment2_2
+> cd Assignment2_2
+
+Now symlink the read files into this directory:
+ln -s /home/cmb-16/mjc/bisc577a/DrosophilaData/Reads_CastellanaGrotte_Italy/SRR5762776_1.fastq .
+ln -s /home/cmb-16/mjc/bisc577a/DrosophilaData/Reads_CastellanaGrotte_Italy/SRR5762776_2.fastq .
+
+ln -s /home/cmb-16/mjc/bisc577a/DrosophilaData/Reads_Stockholm_Sweden/SRR6765736_1.fastq
+. 
+ln -s /home/cmb-16/mjc/bisc577a/DrosophilaData/Reads_Stockholm_Sweden/SRR6765736_2.fastq .
+
+
+
+There is a snakemake file here to get you started:
+
+/home/cmb-16/mjc/bisc577a/Assignment.2.2.snakefile
+
+which requires the file:
+
+/home/cmb-16/mjc/bisc577a/config.sh
+
+Copy the snakefile and config.sh to the directory where you have symlinked the files.
+
+
+Assignment.2.2.snakefile. To run it, do:
+
+source /home/cmb-16/mjc/shared/virtualenvs/python3/bin/activate
+snakemake -p -s Assignment.2.2.snakefile
+
+Grading is out of a total of 100 points. Each step should have one or
+more associated rules in a snakefile.
+
+
+
+Steps.
+1. (10 points) Add a rule to map reads from the two species.
+
+You need to run bwa mem, with the flag set to add a read group. This
+step is provided in the snakefile.
+
+2. (10 points) Add a rule and Call variants using freebayes. There is an installation of
+freebayes here:
+
+/home/cmb-16/mjc/shared/bin/freebayes
+
+If you are running this outside of writing your snakemake file, you
+need to source a config file that sets up your environment:
+
+> source /home/cmb-16/mjc/bisc577a/config.sh
+
+*Note* This removes python3 from your environment.  To go back to
+ python 3 to use snakemake, reactivate the python 3 virtualenv:
+
+source /home/cmb-16/mjc/shared/virtualenvs/python3/bin/activate
+
+
+3. (20 points)  Compare the variants between the two files. You will need to become
+familiar with bedtools and either grep or vcftools.
+https://github.com/arq5x/bedtools2
+
+It is installed on the cluster here:
+/home/cmb-16/mjc/shared/bin/bedtools
+
+For the freebayes calls:
+  - How many SNV calls are there per drosophila sample?  
+  - How many homozygous SNVs? 
+  - How many heterozygous SNVs?
+  - How many SNVs are shared between the two species?
+  - Compute the SNV density in 20kbp bins, plot a histogram of SNV
+    density.
+
+
+4. (10 points) Call structural variants using wham;
+
+The command to call this on one genome is:
+
+> /home/cmb-16/mjc/shared/software_packages/wham/bin/whamg -f SRR6765736.bam -a /home/cmb-16/mjc/bisc577a/DrosophilaData/Genome/dm6.fa > SRR6765736.wham.vcf
+
+
+Plot a distribution of the lengths of structural variants in each species. Hint: the field SVLEN in the VCF file gives the expected length of the SV. 
+
+Extra (fun, no extra credit): is there an elevated SNV rate near SVs?
+
+6. (10 points) Assemble each genome using minia
+
+The command for one of the genomes is:
+
+
+> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/usc/gnu/gcc/5.3.0/lib64
+
+> /home/cmb-16/mjc/shared/bin/minia
+
+You'll have to read output to determine what options to use.
+
+. Now answer: how much of the genome is assembled into contigs greater than 2kbp? There will be a file: 
+SRR5762776-contigs.fa
+
+If you create a index on this file using:
+>samtools faidx SRR5762776-contigs.fa
+
+you can parse the output .fai file and compute this statistic.
+
+You'll have to read output to determine what options to use.
+
+7. (20 points)  Now answer: how much of the genome is assembled into contigs greater than 2kbp? There will be a file: 
+SRR5762776-contigs.fa
+
+If you create a index on this file using:
+samtools faidx SRR5762776-contigs.fa, you can parse the output .fai file and compute this statistic.
+
+8. (20 points) Create another rule to assemble with a different k-mer. Reassemble,
+and compute the N50 of the two assemblies.
+
+
+
+all_sra=["SRR5762776", "SRR6765736"]
