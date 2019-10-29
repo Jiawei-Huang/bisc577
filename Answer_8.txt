@@ -1,1 +1,4 @@
-required N50 statistic is 3130
+required N50 statistic for SRR6765736_22.contigs.fa.fai is 654
+required N50 statistic for SRR6765736_31.contigs.fa.fai is 2446
+required N50 statistic for SRR5762776_22.contigs.fa.fai is 767
+required N50 statistic for SRR5762776_31.contigs.fa.fai is 3130

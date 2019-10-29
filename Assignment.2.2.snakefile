@@ -5,6 +5,7 @@ shell.prefix(". {SD}/config.sh; ")
 all_sra=["SRR5762776", "SRR6765736"]
 methods= ["freebayes"]
 kmers=[31,22]
+
 rule all:
     input:
         bam=expand("{sra}.bam", sra=all_sra),
@@ -12,8 +13,9 @@ rule all:
         varFiles=expand("{sra}.{method}.vcf", sra=all_sra, method=methods),
         contigs=expand("{sra}_{kmer}.contigs.fa", sra=all_sra, kmer=kmers),
         indexs=expand("{sra}_{kmer}.contigs.fa.fai", sra=all_sra, kmer=kmers),
-        structuralVar=expand("{sra}.wham.vcf", sra=all_sra)
-        
+        structuralVar=expand("{sra}.wham.vcf", sra=all_sra),
+        all_answers=expand("Answer_{sra}_3.txt",sra=all_sra)
+
 rule MapReads:
     input:
         
@@ -59,8 +61,16 @@ echo "{input.reads[0]}\n{input.reads[1]}" > {wildcards.sra}.txt;
 samtools faidx {output.contig}
 """
 
-        
-
-
+rule All_answers:
+    input:
+        files=["{sra}.bam"]
+    output:
+        all_answers="Answer_{sra}_3.txt"
+    shell:"""
+    deactivate
+    ./analysis.sh {wildcards.sra}
+    source /home/cmb-16/mjc/shared/virtualenvs/python2.7/bin/activate
+"""
+       
 
 

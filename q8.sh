@@ -17,5 +17,6 @@ while read p; do
   
 done < cummsum.txt
 
-echo  required N50 statistic is $(sed "${idx}q;d" sorted.fai | cut -f2) > Answer_8.txt
+
+echo  required N50 statistic for $fai is $(sed "${idx}q;d" sorted.fai | cut -f2) >> Answer_8.txt
 rm sorted.fai cummsum.txt

@@ -1,3 +1,6 @@
-SRR5762776: homo: 246399 hetero: 722849 total: 969248
-SRR6765736: homo: 116517 hetero: 938196 total: 1054713
+counts for SRR6765736.freebayes.vcf
+homo: 116517 hetero: 938196 total: 1054713
+Number of SNVs shared between two species: 710099
+counts for SRR5762776.freebayes.vcf
+homo: 246399 hetero: 722849 total: 969248
 Number of SNVs shared between two species: 710099
